@@ -1,0 +1,55 @@
+{
+  "pages": [
+    "pages/index/main",
+    "pages/servers/main",
+    "pages/carlife/main",
+    "pages/my/main",
+    "pages/main/add-car/main",
+    "pages/main/review-info/main",
+    "pages/main/my-carlist/main",
+    "pages/main/my-record/main",
+    "pages/main/my-report/main",
+    "pages/main/report-item/main",
+    "pages/main/report-error/main",
+    "pages/main/vehicle-maintenance/date-sa/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#568FF4",
+    "navigationBarTitleText": "汉云车行",
+    "navigationBarTextStyle": "light",
+    "navigationStyle":"default"
+  },
+  "tabBar": {
+    "color": "#333333",
+    "selectedColor": "#568FF4",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "rgba(155,155,155,0.82)",
+    "list": [
+      {
+        "pagePath": "pages/index/main",
+        "text": "首页",
+        "iconPath": "static/image/index.png",
+        "selectedIconPath": "static/image/index-active.png"
+      },
+      {
+        "pagePath": "pages/servers/main",
+        "text": "服务",
+        "iconPath": "static/image/server.png",
+        "selectedIconPath": "static/image/server-active.png"
+      },
+      {
+        "pagePath": "pages/carlife/main",
+        "text": "车生活",
+        "iconPath": "static/image/fangxiangpan.png",
+        "selectedIconPath": "static/image/fangxiangpan-active.png"
+      },
+      {
+        "pagePath": "pages/my/main",
+        "text": "我的",
+        "iconPath": "static/image/my.png",
+        "selectedIconPath": "static/image/my-active.png"
+      }
+    ]
+  }
+}
