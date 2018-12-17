@@ -121,9 +121,9 @@
     </div>
     <div class="date_sa_fixed_box">
       <div class="left_count_title">
-        1项合计：¥ {{priceCount}}（含工时费）
+        {{chooseAllSelect}}项合计：¥ {{priceCount}}（含工时费）
       </div>
-      <div class="set_data_btn">
+      <div class="set_data_btn" @click="makeAnAppointment()">
         预约时间
       </div>
     </div>
@@ -138,6 +138,7 @@ export default {
     return {
       addNumber: 1,
       priceCount: 0,
+      chooseAllSelect: 0,
       processList: [
         {
           img: '../../../../../static/image/xuanzexiangmu.png',
@@ -325,6 +326,11 @@ export default {
     }
   },
   methods: {
+    makeAnAppointment () {
+      wx.navigateTo({
+        url: '../date-appointment/main'
+      })
+    },
     changeMyCar () {
       wx.navigateTo({
         url: '../../my-carlist/main'
@@ -366,11 +372,14 @@ export default {
       goodsInfo.nowPrice = goodsItemPrice.toFixed(2)
     },
     calcAllPrice () {
+      // 计算总价
       let severLists = this.seversList
       this.priceCount = 0
+      this.chooseAllSelect = 0
       for (var i = 0; i < severLists.length; i++) {
         for (var j = 0; j < severLists[i].serverItemList.length; j++) {
           if (severLists[i].serverItemList[j].isSelect) {
+            this.chooseAllSelect += 1
             this.priceCount += Number(severLists[i].serverItemList[j].nowPrice)
           }
         }
@@ -389,6 +398,10 @@ export default {
   },
   onShow () {
     this.calcAllPrice()
+  },
+  onLoad () {
+    // 解决页面返回后，数据没重置的问题
+    Object.assign(this, this.$options.data())
   }
 }
 </script>

@@ -127,6 +127,10 @@ export default {
   onShow () {
     this.hasClick = Number(this.$root.$mp.query.id)
     console.log('====>>', this.$root.$mp.query, this.hasClick)
+  },
+  onLoad () {
+    // 解决页面返回后，数据没重置的问题
+    Object.assign(this, this.$options.data())
   }
 }
 </script>

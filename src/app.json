@@ -11,7 +11,8 @@
     "pages/main/my-report/main",
     "pages/main/report-item/main",
     "pages/main/report-error/main",
-    "pages/main/vehicle-maintenance/date-sa/main"
+    "pages/main/vehicle-maintenance/date-sa/main",
+    "pages/main/vehicle-maintenance/date-appointment/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

@@ -26,6 +26,10 @@ export default {
   created () {
     const logs = (wx.getStorageSync('logs') || [])
     this.logs = logs.map(log => formatTime(new Date(log)))
+  },
+  onLoad () {
+    // 解决页面返回后，数据没重置的问题
+    Object.assign(this, this.$options.data())
   }
 }
 </script>
