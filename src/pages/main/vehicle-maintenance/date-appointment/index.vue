@@ -88,8 +88,8 @@
         </div>
       </div>
       <div class="goods_list_display">
-        <div class="_list_item">
-          <img src="../../../../../static/image/cartest.jpg" alt="">
+        <div class="_list_item" v-for="(item, index) in shopGoodsList" :key="index">
+          <img :src="item.imgSrc" alt="">
         </div>
       </div>
     </div>
@@ -114,6 +114,64 @@ export default {
       timeValue: [],
       hours: [],
       mimutes: [],
+      shopGoodsList: [
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        },
+        {
+          imgSrc: '../../../.././../static/image/cartest.jpg',
+          title: '好基友，好机油哦'
+        }
+      ],
       curTimeObj: {
         hour: '9',
         mimute: '30',
@@ -203,9 +261,43 @@ export default {
 
 <style>
 .date_appointment_pages .goods_info_box{
-  padding: 0 22rpx 0 36rpx;
   border-top: 6rpx solid #f4f4f4;
+  border-bottom: 6rpx solid #f4f4f4;
+}
+.date_appointment_pages ._header_title{
+  display: flex;
+  align-items: center;
+  padding: 0 22rpx 0 36rpx;
+  height: 88rpx;
+  line-height: 88rpx;
   border-bottom: 2rpx solid #f4f4f4;
+}
+.date_appointment_pages .goods_list_display{
+  padding: 20rpx 22rpx 0rpx 36rpx;
+  display: flex;
+  width:95%;
+  display:flex;
+  flex-flow:row wrap;
+  align-content:center;
+}
+.date_appointment_pages .goods_list_display ._list_item{
+  width: 25%;
+  padding-bottom: 20rpx
+}
+.date_appointment_pages .goods_list_display ._list_item img {
+  width:154rpx;
+  height:197rpx;
+  vertical-align: middle;
+}
+.date_appointment_pages ._left_title{
+  font-size:28rpx;
+  font-weight:400;
+  color:rgba(0,0,0,1);
+}
+.date_appointment_pages ._right_price{
+  font-size:28rpx;
+  font-weight:400;
+  color:rgba(231,46,45,1);
 }
 .date_appointment_pages .goods_info_box ._header_title{
   display: flex;
