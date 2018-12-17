@@ -93,6 +93,30 @@
         </div>
       </div>
     </div>
+    <div class="list_item_box box_common">
+      <div class="_left_title">
+        支付方式
+      </div>
+      <div class="_right_title">
+        到店支付
+      </div>
+    </div>
+    <div class="list_item_box box_common">
+      <div class="_left_title">
+        优惠券
+      </div>
+      <div class="_right_title">
+        暂无优惠
+      </div>
+    </div>
+    <div class="date_appointment_fixed">
+      <div class="left_count_title">
+        {{chooseAllSelect}}项合计：¥ {{priceCount}}（含工时费）
+      </div>
+      <div class="set_data_btn" @click="makeAnAppointment()">
+        预约时间
+      </div>
+    </div>
     <saListTemplate v-if="isShowSaModal" @callbackSaDataFunc="callbackSaDataFunc"></saListTemplate>
   </div>
 </template>
@@ -115,30 +139,6 @@ export default {
       hours: [],
       mimutes: [],
       shopGoodsList: [
-        {
-          imgSrc: '../../../.././../static/image/cartest.jpg',
-          title: '好基友，好机油哦'
-        },
-        {
-          imgSrc: '../../../.././../static/image/cartest.jpg',
-          title: '好基友，好机油哦'
-        },
-        {
-          imgSrc: '../../../.././../static/image/cartest.jpg',
-          title: '好基友，好机油哦'
-        },
-        {
-          imgSrc: '../../../.././../static/image/cartest.jpg',
-          title: '好基友，好机油哦'
-        },
-        {
-          imgSrc: '../../../.././../static/image/cartest.jpg',
-          title: '好基友，好机油哦'
-        },
-        {
-          imgSrc: '../../../.././../static/image/cartest.jpg',
-          title: '好基友，好机油哦'
-        },
         {
           imgSrc: '../../../.././../static/image/cartest.jpg',
           title: '好基友，好机油哦'
@@ -401,5 +401,31 @@ export default {
   text-align: right;
   padding-right: 36rpx;
   color:rgba(55,148,228,1);
+}
+.date_appointment_fixed{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 98rpx;
+  line-height: 98rpx;
+  background:rgba(255,255,255,1);
+  position:fixed;
+  width:100%;
+  bottom:0;
+}
+.date_appointment_fixed .left_count_title{
+  padding-left: 36rpx;
+  font-size:24rpx;
+  font-weight:400;
+  color:rgba(102,102,102,1);
+}
+.date_appointment_fixed .set_data_btn{
+  text-align: center;
+  line-height: 98rpx;
+  width:280rpx;
+  font-size:36rpx;
+  font-weight:400;
+  color:rgba(254,254,254,1);
+  background:rgba(86,143,244,1);
 }
 </style>
