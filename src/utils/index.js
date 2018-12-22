@@ -27,8 +27,21 @@ export function obj2style (style) {
   })
   return str.join(';')
 }
+export function getDistance (lati1, lngi1, lati2, lngi2) {
+  let lat1 = lati1 || 0
+  let lng1 = lngi1 || 0
+  let lat2 = lati2 || 0
+  let lng2 = lngi2 || 0
+  let rad1 = lat1 * Math.PI / 180.0
+  let rad2 = lat2 * Math.PI / 180.0
+  let a = rad1 - rad2
+  let b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0
+  let r = 6378137
+  return (r * 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(rad1) * Math.cos(rad2) * Math.pow(Math.sin(b / 2), 2)))).toFixed(0)
+}
 export default {
   formatNumber,
   formatTime,
-  obj2style
+  obj2style,
+  getDistance
 }

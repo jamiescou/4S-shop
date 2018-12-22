@@ -2,16 +2,16 @@
   <div class="change_car_box">
     <div class="car_info_list" v-for="(item, index) in carList" :key="index">
       <div class="car_brand_num">
-        {{item.carNum}}
+        {{item.plateNumber}}
       </div>
       <div class="car_info_box" @click="changeMyCar()">
         <div class="car_info_left">
-          <div>{{item.carName}}</div>
-          <div class="info_center">上次保养里程：{{item.carRange}}</div>
+          <div>{{item.brandName + item.setName + item.modelName}}</div>
+          <div class="info_center">上次保养里程：{{item.mileage}}</div>
           <div>上次保养时间：{{item.carTime}}</div>
         </div>
         <div class="car_info_right">
-          <img :src="item.picCar" alt="">
+          <img src="../../../../static/image/cartest.jpg" alt="">
         </div>
       </div>
       <div class="car_info_record" @click="checkRecord()">
@@ -75,6 +75,16 @@ export default {
   },
   created () {
   },
+  onShow () {
+    this.request.get('/api/car/usercCar/queryList').then(res => {
+      this.carList = res.data
+      // this.isShowEmptyCar = carList && carList.length > 0
+      // console.log('isShowEmptyCar=>', this.isShowEmptyCar)
+      // this.curCarInfo = carList.filter(item => item.isDefaulft === 1)[0]
+    }).catch(err => {
+      console.log(err)
+    })
+  },
   onLoad () {
     // 解决页面返回后，数据没重置的问题
     Object.assign(this, this.$options.data())
@@ -86,16 +96,17 @@ export default {
 .change_car_box{
 }
 .car_info_list{
-  padding: 30rpx 22rpx 0rpx 37rpx;
   border-bottom: 10rpx solid #f4f4f4;
 }
 .car_brand_num{
+  padding: 30rpx 22rpx 0rpx 37rpx;
   font-size:32rpx;
   font-weight:400;
   color:rgba(0,0,0,1);
   padding-bottom: 30rpx;
 }
 .car_info_box{
+  padding: 30rpx 22rpx 0rpx 37rpx;
   padding-bottom: 44rpx;
   display: flex;
   align-items: center;
@@ -110,6 +121,7 @@ export default {
 .car_info_box .car_info_right img{
   width:210rpx;
   height:145rpx;
+  vertical-align: middle;
 }
 .car_info_box .info_center{
   padding: 33rpx 0;

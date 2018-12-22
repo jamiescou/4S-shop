@@ -3,16 +3,22 @@
     "pages/index/main",
     "pages/servers/main",
     "pages/carlife/main",
+    "pages/carlife-detail/main",
     "pages/my/main",
     "pages/main/add-car/main",
     "pages/main/review-info/main",
     "pages/main/my-carlist/main",
     "pages/main/my-record/main",
     "pages/main/my-report/main",
+    "pages/main/look-team/main",
     "pages/main/report-item/main",
     "pages/main/report-error/main",
     "pages/main/vehicle-maintenance/date-sa/main",
-    "pages/main/vehicle-maintenance/date-appointment/main"
+    "pages/main/replacement-newcars/main",
+    "pages/main/vehicle-maintenance/date-appointment/main",
+    "pages/main/order-manager/order-list/main",
+    "pages/main/order-manager/order-detail/main",
+    "pages/main/order-manager/check-car/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

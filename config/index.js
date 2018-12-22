@@ -17,6 +17,9 @@ var fileExtConfig = {
 var fileExt = fileExtConfig[process.env.PLATFORM]
 
 module.exports = {
+  // externals: {
+  //   "BMap": "BMap"
+  // },
   build: {
     env: require('./prod.env'),
     index: path.resolve(__dirname, `../dist/${fileExt.platform}/index.html`),

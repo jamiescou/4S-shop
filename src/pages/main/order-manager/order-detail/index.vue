@@ -1,5 +1,5 @@
 <template>
-  <div class="date_appointment_pages">
+  <div class="order_detail_box_pages">
     <div class="list_item_box box_common">
       <div class="_left_title">
         预约选择
@@ -9,72 +9,26 @@
     </div>
     <div class="box_common list_item_child">
       <div class="_left_title">
-        预约日期
+        门店
       </div>
       <div class="_right_title">
-        <div class="section_title">
-          <picker
-            mode="date"
-            :value="chooseDate"
-            :start="chooseDate"
-            end="2100-09-01"
-            @change="bindDateChange">
-            <view class="picker">{{chooseDate}} </view>
-          </picker>
-          <div class="_next_step"><img src="../../../../../static/image/right-icon.png" alt=""></div>
-        </div>
+        长沙一汽大众4S店销售服务有限公司
       </div>
     </div>
     <div class="box_common list_item_child">
       <div class="_left_title">
-        预约时间
+        时间
       </div>
       <div class="_right_title">
-        <div class="_right_content" @click="chooseTime()">
-          <div>{{curTimeObj.hour}}时{{curTimeObj.mimute}}分 剩余工位{{curTimeObj.workPlace}}</div>
-          <div class="_next_step"><img src="../../../../../static/image/right-icon.png" alt=""></div>
-        </div>
-        <view v-if="isShowTimePicker">
-          <!-- <div @click="chooseTime()">{{timeValue[0]}}时{{timeValue[1]}}分 剩余工位{{timeValue[2]}}</div> -->
-          <div class="_mask_modal_full"></div>
-          <picker-view
-            indicator-style="height: 50px; font-size: 36rpx;"
-            style="background:#fff;position: fixed; z-index: 11; bottom: 0; left: 0; width: 100%; height: 300px;text-align:center;"
-            :value="timeValue"
-            @change="bindTimeChange">
-            <div class="_head_menu_picker_time">
-              <div class="_cancel_left" @click="cancelPickerTime()">取消</div>
-              <div class="_confirm_right" @click="confirmPickerTime()">确定</div>
-            </div>
-            <picker-view-column>
-              <view v-for="hour in hours" :key="hour + Math.random() * 10" style="line-height: 50px;font-size: 36rpx;">{{hour}}时</view>
-            </picker-view-column>
-            <picker-view-column>
-              <view v-for="mimute in mimutes" :key="mimute +  Math.random() * 100" style="line-height: 50px;font-size: 36rpx;">{{mimute}}分</view>
-            </picker-view-column>
-            <picker-view-column>
-              <view style="line-height: 50px;font-size: 36rpx;">剩余工位:{{workPlace}}</view>
-            </picker-view-column>
-          </picker-view>
-          </view>
-        </div>
+        2018-11-28 09:30
       </div>
+    </div>
     <div class="box_common list_item_child">
       <div class="_left_title">
-        预约SA
+        服务顾问
       </div>
-      <div class="_right_title" @click="chooseSA()">
-        <div class="list_icon_data">
-          <div class="_once_time_data" v-if="saData.isOnce">
-            您上次的SA
-          </div>
-          <div class="_choose_name">
-            {{saData.saName}}
-          </div>
-          <div class="_right_icon">
-            <img src="../../../../../static/image/right-icon.png" alt="">
-          </div>
-        </div>
+      <div class="_right_title">
+        Mrs 高
       </div>
     </div>
     <div class="goods_info_box">
@@ -109,25 +63,26 @@
         暂无优惠
       </div>
     </div>
-    <div class="date_appointment_fixed">
-      <div class="left_count_title">
-        应付：¥1299.00（优惠¥0.00）
+    <div class="order_status_btn">
+      <div class="new_creat_btn btn_common">
+        新增项目
       </div>
-      <div class="set_data_btn" @click="makeAnOrder()">
-        确认下单
+      <div class="cancle_btn btn_common canClick">
+        取消订单
+      </div>
+      <div class="change_date_btn btn_common canClick">
+        更改时间
+      </div>
+      <div class="navigetor_go btn_common canClick">
+        导航前往
       </div>
     </div>
-    <saListTemplate v-if="isShowSaModal" @callbackSaDataFunc="callbackSaDataFunc"></saListTemplate>
   </div>
 </template>
 
 <script>
-import saListTemplate from '../sa-list/index'
-import {formatTime} from '../../../../utils/index'
-import { setTimeout } from 'timers'
 export default {
   components: {
-    saListTemplate
   },
   data () {
     return {
@@ -185,75 +140,8 @@ export default {
     }
   },
   methods: {
-    makeAnOrder () {
-      console.log('okay 已下单')
-    },
-    chooseTime () {
-      this.isShowTimePicker = true
-    },
-    chooseSA () {
-      this.isShowSaModal = true
-    },
-    callbackSaDataFunc (data) {
-      this.saData.saName = data.saName
-      this.saData.isOnce = false
-      this.isShowSaModal = false
-    },
-    cancelPickerTime () {
-      // 取消预约时间
-      this.isShowTimePicker = false
-    },
-    confirmPickerTime () {
-      // 确认预约时间
-      this.curTimeObj = {
-        hour: this.timeValue[0] < 10 ? '0' + this.timeValue[0] : this.timeValue[0],
-        mimute: this.timeValue[1] === 1 ? '30' : '00',
-        workPlace: this.workPlace + ''
-      }
-      this.isShowTimePicker = false
-    },
-    bindDateChange (e) {
-      this.chooseDate = e.target.value
-    },
-    bindTimeChange (e) {
-      console.log('eee==>>', e.target.value)
-      this.getPlacesNum() // 获取工位数
-      this.timeValue = [
-        e.target.value[0],
-        e.target.value[1],
-        this.workPlace
-      ]
-    },
-    getPlacesNum () {
-      let that = this
-      setTimeout(() => {
-        that.workPlace = Math.round(Math.random() * 10)
-      }, 1000)
-      console.log('==>>', this.workPlace)
-    },
-    initDateTime () {
-      this.hours = [] // 时
-      this.mimutes = ['00', 30] // 分
-      this.workPlace = 10 // 工位
-      for (var i = 0; i < 24; i++) {
-        this.hours.push(i)
-      }
-      this.curTimeObj = {
-        hour: 9,
-        mimute: 30,
-        workPlace: 10
-      }
-      this.timeValue = [
-        formatTime(new Date()).split(' ')[1].split(':')[0],
-        this.mimutes[0],
-        this.workPlace
-      ]
-    }
   },
   onShow () {
-    this.initDateTime()
-    this.chooseDate = formatTime(new Date()).split(' ')[0]
-    console.log('date==>', this.chooseDate)
   },
   onLoad () {
     // 解决页面返回后，数据没重置的问题
@@ -263,11 +151,43 @@ export default {
 </script>
 
 <style>
-.date_appointment_pages .goods_info_box{
+.order_detail_box_pages .order_status_btn{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 98rpx;
+    line-height: 98rpx;
+    padding: 0 36rpx 0 36rpx;
+  }
+  .order_detail_box_pages .order_status_btn .canClick{
+    background: #568FF4 !important
+  }
+  .order_detail_box_pages .order_status_btn .btn_common{
+    line-height: 54rpx;
+    text-align: center;
+    font-size:28rpx;
+    font-weight:400;
+    color:rgba(255,255,255,1);
+    width:140rpx;
+    height:54rpx;
+    background:rgba(207,207,207,1);
+    border:1rpx solid rgba(207,207,207,1);
+    border-radius:4rpx;
+  }
+  .order_detail_box_pages .order_status_btn .fixed_btn{
+    width: 140rpx;
+  }
+  .order_detail_box_pages .order_status_btn .change_date_btn{
+    
+  }
+  .order_detail_box_pages .order_status_btn .navigetor_go{
+    
+  }
+.order_detail_box_pages .goods_info_box{
   border-top: 6rpx solid #f4f4f4;
   border-bottom: 6rpx solid #f4f4f4;
 }
-.date_appointment_pages ._header_title{
+.order_detail_box_pages ._header_title{
   display: flex;
   align-items: center;
   padding: 0 22rpx 0 36rpx;
@@ -275,7 +195,7 @@ export default {
   line-height: 88rpx;
   border-bottom: 2rpx solid #f4f4f4;
 }
-.date_appointment_pages .goods_list_display{
+.order_detail_box_pages .goods_list_display{
   padding: 20rpx 22rpx 0rpx 36rpx;
   display: flex;
   width:95%;
@@ -283,31 +203,31 @@ export default {
   flex-flow:row wrap;
   align-content:center;
 }
-.date_appointment_pages .goods_list_display ._list_item{
+.order_detail_box_pages .goods_list_display ._list_item{
   width: 25%;
   padding-bottom: 20rpx
 }
-.date_appointment_pages .goods_list_display ._list_item img {
+.order_detail_box_pages .goods_list_display ._list_item img {
   width:154rpx;
   height:197rpx;
   vertical-align: middle;
 }
-.date_appointment_pages ._left_title{
+.order_detail_box_pages ._left_title{
   font-size:28rpx;
   font-weight:400;
   color:rgba(0,0,0,1);
 }
-.date_appointment_pages ._right_price{
+.order_detail_box_pages ._right_price{
   font-size:28rpx;
   font-weight:400;
   color:rgba(231,46,45,1);
 }
-.date_appointment_pages .goods_info_box ._header_title{
+.order_detail_box_pages .goods_info_box ._header_title{
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.date_appointment_pages{
+.order_detail_box_pages{
 
 }
 .list_item_child .list_icon_data {
@@ -331,7 +251,7 @@ export default {
   height:28rpx;
   vertical-align:middle;
 }
-.date_appointment_pages .box_common{
+.order_detail_box_pages .box_common{
   padding: 0 22rpx 0 36rpx;
   display: flex;
   justify-content: space-between;
@@ -342,10 +262,10 @@ export default {
   font-weight:400;
   border-bottom: 2rpx solid #f4f4f4;
 }
-.date_appointment_pages .list_item_box{
+.order_detail_box_pages .list_item_box{
   color:rgba(0,0,0,1);
 }
-.date_appointment_pages .list_item_child{
+.order_detail_box_pages .list_item_child{
   color:rgba(51,51,51,1);
 }
 .list_item_child ._next_step img{
@@ -361,7 +281,7 @@ export default {
 .list_item_child ._right_title .section_title{
   display: flex;
 }
-.date_appointment_pages ._mask_modal_full{
+.order_detail_box_pages ._mask_modal_full{
   width: 100%;
   height: 100%;
   position: fixed;
@@ -371,14 +291,14 @@ export default {
   bottom:0;
   z-index: 10;
 }
-.date_appointment_pages .picker_time_mask{
+.order_detail_box_pages .picker_time_mask{
   position: fixed;
   width: 100%;
   left:0;
   bottom:0;
   z-index: 11;
 }
-.date_appointment_pages ._head_menu_picker_time{
+.order_detail_box_pages ._head_menu_picker_time{
   display:flex;
   justify-content:space-between;
   align-items:center;
@@ -393,13 +313,13 @@ export default {
   background: #fff;
   border-bottom: 2rpx solid #f4f4f4;
 }
-.date_appointment_pages ._head_menu_picker_time ._cancel_left{
+.order_detail_box_pages ._head_menu_picker_time ._cancel_left{
   width: 50%;
   text-align: left;
   padding-left: 36rpx;
   color:rgba(0,0,0,1);
 }
-.date_appointment_pages ._head_menu_picker_time ._confirm_right{
+.order_detail_box_pages ._head_menu_picker_time ._confirm_right{
   width: 50%;
   text-align: right;
   padding-right: 36rpx;

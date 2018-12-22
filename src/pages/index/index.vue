@@ -26,7 +26,7 @@
       <!-- 椭圆弧 -->
       <div class="ellipse_line"></div>
       <!-- 车信息卡片 -->
-      <div v-if="false" class="add_card_box">
+      <div v-if="!isShowEmptyCar" class="add_card_box">
         <div class="add_card_model">
           <div class="_icon" @click="addMyCar()"><img src="../../../static/image/add-car.png" alt=""></div>
           <div class="content_title">
@@ -39,7 +39,7 @@
           </div>
         </div>
       </div>
-      <div class="car_card_box">
+      <div v-if="isShowEmptyCar" class="car_card_box">
         <div class="card_head">
           <div class="icon_"><img src="../../../static/image/server-active.png" alt=""></div>
           <div class="change_icon" @click="changeMyCar()">切换</div>
@@ -47,23 +47,23 @@
         <div class="card_info_two">
           <div class="card_info_left">
             <div class="card_brand card_info_common">
-              品牌：奔驰GLC2016
+              品牌：{{curCarInfo.brandName + curCarInfo.setName}}
             </div>
             <div class="card_price card_info_common">
-              爱车估值：28.00万
+              爱车估值：{{curCarInfo.valuation}}万
             </div>
           </div>
           <div class="card_info_right">
-            <img src="../../../static/image/cartest.jpg" alt="">
+            <img :src="curCarInfo.carImg" alt="">
           </div>
         </div>
         <div class="card_info_new">
           <div class="_left">
-            <div class="card_info_common _new_price">当前新车价：52.00万</div>
+            <div class="card_info_common _new_price">当前新车价：{{curCarInfo.salePrice}}万</div>
             <div class="_btn_load"><img src="../../../static/image/index.png" alt="">一键贷款</div>
           </div>
           <div class="_right" >
-            <div class="car_pai">湘A52U08</div>
+            <div class="car_pai">{{curCarInfo.plateNumber}}</div>
             <div class="records_" @click="checkRecord()">
               查看保养记录
             </div>
@@ -71,11 +71,11 @@
         </div>
         <div class="card_info_range">
           <div class="_left">
-            <div class="card_info_common _range">行驶里程：835620公里</div>
+            <div class="card_info_common _range">行驶里程：{{curCarInfo.mileage}}公里</div>
             <div class="_exchange_new"><img src="../../../static/image/index.png" alt="">置换新车</div>
           </div>
           <div class="_right">
-            车龄：2.5年            
+            车龄：{{1}}年            
           </div>
         </div>
       </div>
@@ -166,6 +166,7 @@
 export default {
   data () {
     return {
+      isShowEmptyCar: false, // 有无爱车标记
       modelList: [
         {
           icon: '../../../static/image/baoyang.png',
@@ -235,7 +236,8 @@ export default {
           curPrice: '￥388.00',
           exPrice: '￥488.00'
         }
-      ]
+      ],
+      curCarInfo: {}
     }
   },
   components: {
@@ -243,8 +245,15 @@ export default {
   methods: {
     modelClick (index) {
       if (index === 0) {
+        // 到店保养
         wx.navigateTo({
           url: '../main/vehicle-maintenance/date-sa/main'
+        })
+      }
+      if (index === 2) {
+        // 到店保养
+        wx.navigateTo({
+          url: '../main/replacement-newcars/main'
         })
       }
     },
@@ -280,6 +289,16 @@ export default {
     }
   },
   created () {
+  },
+  onShow () {
+    // this.request.get('/api/car/usercCar/queryList').then(res => {
+    //   let carList = res.data || []
+    //   this.isShowEmptyCar = carList && carList.length > 0
+    //   console.log('isShowEmptyCar=>', this.isShowEmptyCar)
+    //   this.curCarInfo = carList.filter(item => item.isDefaulft === 1)[0]
+    // }).catch(err => {
+    //   console.log(err)
+    // })
   },
   onLoad () {
     // 解决页面返回后，数据没重置的问题
@@ -486,6 +505,7 @@ export default {
   .card_info_right img{
     width: 100%;
     height:150rpx;
+    vertical-align: middle;
   }
   .card_info_new{
     display: flex;
