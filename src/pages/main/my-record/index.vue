@@ -1,132 +1,39 @@
 <template>
   <div class="record_car_box">
-    <div class="record_list">
+    <div class="record_list" v-for="(info, index) in recordList" :key="index">
       <div class="item_record">
         <div class="record_head">
           <div>
-            保养时间：2018年11月18日
+            保养时间：{{info.bookingTime}}
           </div>
           <div>
-            SA：庹鹏程
+            SA：{{info.saName}}
           </div>
         </div>
-        <div class="record_content">
+        <div class="record_content" v-for="(listInfo, listIndex) in info.packageList" :key="listIndex + listInfo.packageName">
           <div class="bao_yang_item">
             <div class="_head">
-              <div class="_left">首次保养套餐</div>
-              <div class="_right">¥ 1288.00</div>
+              <div class="_left">{{listInfo.packageName}}</div>
+              <div class="_right">¥ {{listInfo.packagePrice}}</div>
             </div>
-            <div class="bao_yang_info">
+            <div class="bao_yang_info" v-for="(itemInfo, itemIndex) in listInfo.packageItems" :key="itemIndex + itemInfo.itemName">
               <div class="_content_pic_list" :style="_position_auto">
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
+                <div class="_pic_item"><img :src="itemInfo.itemPic" alt=""></div>
               </div>
-              <div class="_more_info" @click="moveRight()">
+              <div v-if="itemInfo.num && itemInfo.num > 3" class="_more_info">
                 》
               </div>
               <div class="info_count">
-                共6件
-              </div>
-            </div>
-          </div>
-          <div class="bao_yang_item">
-            <div class="_head">
-              <div class="_left">空调机滤套餐</div>
-              <div class="_right">¥ 788.00</div>
-            </div>
-            <div class="bao_yang_info">
-              <div class="_content_pic_list" :style="_position_auto">
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-              </div>
-              <div class="_more_info" @click="moveRight()">
-                》
-              </div>
-              <div class="info_count">
-                共6件
+                共{{itemInfo.num}}件
               </div>
             </div>
           </div>
         </div>
         <div class="record_footer">
           <div class="_left">
-            共5件商品
+            共{{info.totalCount}}件商品
           </div>
-          <div class="_right" @click="checkReport()">
-            车辆保养报告
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="record_list">
-      <div class="item_record">
-        <div class="record_head">
-          <div>
-            保养时间：2018年11月18日
-          </div>
-          <div>
-            SA：庹鹏程
-          </div>
-        </div>
-        <div class="record_content">
-          <div class="bao_yang_item">
-            <div class="_head">
-              <div class="_left">首次保养套餐</div>
-              <div class="_right">¥ 1288.00</div>
-            </div>
-            <div class="bao_yang_info">
-              <div class="_content_pic_list" :style="_position_auto">
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-              </div>
-              <div class="_more_info" @click="moveRight()">
-                》
-              </div>
-              <div class="info_count">
-                共6件
-              </div>
-            </div>
-          </div>
-          <div class="bao_yang_item">
-            <div class="_head">
-              <div class="_left">空调机滤套餐</div>
-              <div class="_right">¥ 788.00</div>
-            </div>
-            <div class="bao_yang_info">
-              <div class="_content_pic_list" :style="_position_auto">
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-                <div class="_pic_item"><img src="../../../../static/image/cartest.jpg" alt=""></div>
-              </div>
-              <div class="_more_info" @click="moveRight()">
-                》
-              </div>
-              <div class="info_count">
-                共6件
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="record_footer">
-          <div class="_left">
-            共5件商品
-          </div>
-          <div class="_right" @click="checkReport()">
+          <div class="_right" @click="checkReport(info.orderId)">
             车辆保养报告
           </div>
         </div>
@@ -141,7 +48,8 @@ export default {
   },
   data () {
     return {
-      _position_auto: 'left: 1000'
+      _position_auto: 'left: 1000',
+      recordList: []
     }
   },
   methods: {
@@ -149,13 +57,24 @@ export default {
       console.log('ssss')
       this._position_auto = 'left: 400rpx'
     },
-    checkReport () {
+    checkReport (id) {
       wx.navigateTo({
-        url: '../my-report/main'
+        url: '../my-report/main?orderId=' + id
+      })
+    },
+    getRecordList () {
+      // let vinCode = this.$root.$mp.query.vinCode
+      this.request.post('/api/orders/getBaoyangOrderList?vinCode=' + 'sdafdasfdafdsafd').then(res => {
+        this.recordList = res.data
+      }).catch(err => {
+        console.log(err)
       })
     }
   },
   created () {
+  },
+  onShow () {
+    this.getRecordList()
   },
   onLoad () {
     // 解决页面返回后，数据没重置的问题

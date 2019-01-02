@@ -63,20 +63,53 @@
         暂无优惠
       </div>
     </div>
-    <div class="order_status_btn">
-      <div class="new_creat_btn btn_common">
-        新增项目
-      </div>
-      <div class="cancle_btn btn_common canClick">
+    <!-- <div class="order_status_btn">
+      <div
+        class="new_creat_btn btn_common"
+        v-if="info.status === 1 || info.status === 2 || info.status === 3 || info.status === 4">
         取消订单
       </div>
-      <div class="change_date_btn btn_common canClick">
+      <div
+        v-if="info.status === 1"
+        class="cancle_btn btn_common canClick">
         更改时间
       </div>
-      <div class="navigetor_go btn_common canClick">
+      <div
+        v-if="info.status === 4"
+        class="cancle_btn btn_common canClick">
+        确认作业
+      </div>
+      <div
+        v-if="info.status === 3 || info.status === 4 || info.status === 5 || info.status === 6 || info.status === 7 || info.status === 11 || info.status === 12 || info.status === 13"
+        class="change_date_btn btn_common canClick" @click="checkCarOrder()">
+        车检报告
+      </div>
+      <div
+        v-if="info.status === 1 || info.status === 2"
+        class="navigetor_go btn_common canClick">
         导航前往
       </div>
-    </div>
+      <div
+        v-if="info.status === 5 || info.status === 6 || info.status === 11 || info.status === 12 || info.status === 13"
+        class="navigetor_go btn_common canClick">
+        作业进度
+      </div>
+      <div
+        v-if="info.status === 7 || info.status === 8 || info.status === 9"
+        class="navigetor_go btn_common canClick">
+        保养报告
+      </div>
+      <div
+        v-if="info.status === 8"
+        class="navigetor_go btn_common canClick">
+        待评价
+      </div>
+      <div
+        v-if="info.status === 7"
+        class="navigetor_go btn_common canClick">
+        确认结算
+      </div>
+    </div> -->
   </div>
 </template>
 

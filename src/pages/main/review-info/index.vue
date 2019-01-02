@@ -3,23 +3,23 @@
     <div class="_table_list">
       <div class="list_item">
         <div class="item_left">车架号（VIN码）</div>
-        <div class="item_right">18889km</div>
+        <div class="item_right">{{params.vinNumber}}</div>
       </div>
       <div class="list_item">
         <div class="item_left">车牌号码</div>
-        <div class="item_right">18889km</div>
+        <div class="item_right">{{params.plateNumber}}</div>
       </div>
       <div class="list_item">
         <div class="item_left">里程数</div>
-        <div class="item_right">18889km</div>
+        <div class="item_right">{{params.mileage}}km</div>
       </div>
       <div class="list_item">
         <div class="item_left">车辆信息</div>
-        <div class="item_right">东风日产 阳光1.5 2012款  舒适型</div>
+        <div class="item_right">{{carFullName}}</div>
       </div>
       <div class="list_item">
         <div class="item_left">是否为新能源车</div>
-        <div class="item_right">否</div>
+        <div class="item_right">{{params.isNewEnergyCar?'是':'否'}}</div>
       </div>
     </div>
     <div class="car_picture_box">
@@ -27,68 +27,61 @@
         车辆照片
       </div>
       <div class="small_picture">
-        <img src="../../../../static/image/cartest.jpg" alt="">
+        <img :src="params.carImg" alt="">
       </div>
     </div>
     <div class="next_step_btn">
       <div class="_btn" @click="submitAdd()">确认添加</div>
     </div>
-    <keyboard @keyboard="keyboardChange" :showKb="showKb" @callBackData="callBackData" extraKey="完成" active-border="#6f85ff" base-border="#6f85ff"></keyboard>
   </div>
 </template>
 
 <script>
-import Keyboard from '../../../components/keyboard/index'
 export default {
   components: {
-    Keyboard
   },
   data () {
     return {
       plateNum: '',
       showKb: false,
       vinNumber: '',
-      carNum: ''
+      carNum: '',
+      carFullName: '',
+      params: {}
     }
   },
   methods: {
-    callBackData (data) {
-      let filterNumber = data.join('')
-      this.carNum = filterNumber
-      // if (data.length === 6) {
-      //   this.showKb = false
-      // }
-    },
-    fieldBlur () {
-      // this.showKb = true
-    },
-    fieldNumBlur () {
-      this.showKb = true
-    },
-    // loseBlur () {
-    //   this.showKb = false
-    // },
-    keyboardChange (plate) {
-      this.showKb = false
-      this.plateNum = plate
-      // console.log('plate==>', plate)
-    },
-    async bandChange () {
-      console.log(this.plateNum)
-    },
     submitAdd () {
       // 下一步
-      wx.switchTab({
-        url: '../../index/main'
+      Object.assign(this.params, {brandName: '法拉泰', setName: '2019款 牛逼自动驾驶', modelName: '日天型'})
+      this.request.post('/api/car/addCar', this.params).then(res => {
+        wx.switchTab({
+          url: '../my-carlist/main'
+        })
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    getCarInfoByVIN () {
+      // /api/car/addCar
+      this.request.post('/api/car/usercCar/queryCar/' + this.params.vinNumber).then(res => {
+        this.carFullName = res.data
+        console.log('carFullName', this.carFullName)
+      }).catch(err => {
+        console.log(err)
       })
     }
   },
 
   created () {
   },
+  onShow () {
+    this.getCarInfoByVIN()
+  },
   onLoad () {
     // 解决页面返回后，数据没重置的问题
     Object.assign(this, this.$options.data())
+    this.params = JSON.parse(this.$root.$mp.query.params)
   }
 }
 </script>

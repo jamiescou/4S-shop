@@ -35,7 +35,6 @@ export default {
   },
   data () {
     return {
-      isShow: false,
       errorDataList: [
         {
           title: '粉尘过滤器',
@@ -71,9 +70,25 @@ export default {
   methods: {
     showAllerror (info) {
       info.isShow = !info.isShow
+    },
+    async getErrorReportList () {
+      let orderId = this.$root.$mp.query.orderId
+      let postData = {
+        orderId
+        // categoryId
+      }
+      let errorDataLists = await this.request.post('/api/report/getReportDetailInfo', postData)
+      this.errorDataList = errorDataLists.data.map(item => {
+        item = {...item, isShow: false}
+        return item
+      })
+      console.log('errorDataList==>', this.errorDataList)
     }
   },
   created () {
+  },
+  onShow () {
+    this.getErrorReportList()
   },
   onLoad () {
     // 解决页面返回后，数据没重置的问题

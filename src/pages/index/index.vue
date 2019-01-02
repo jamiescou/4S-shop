@@ -42,7 +42,7 @@
       <div v-if="isShowEmptyCar" class="car_card_box">
         <div class="card_head">
           <div class="icon_"><img src="../../../static/image/server-active.png" alt=""></div>
-          <div class="change_icon" @click="changeMyCar()">切换</div>
+          <div class="change_icon" @click="changeMyCar(curCarInfo)">切换</div>
         </div>
         <div class="card_info_two">
           <div class="card_info_left">
@@ -75,7 +75,7 @@
             <div class="_exchange_new"><img src="../../../static/image/index.png" alt="">置换新车</div>
           </div>
           <div class="_right">
-            车龄：{{1}}年            
+            车龄：{{curCarInfo.carYear}}年       
           </div>
         </div>
       </div>
@@ -283,22 +283,23 @@ export default {
       })
     },
     checkRecord () {
+      let vinCode = this.curCarInfo.vin
       wx.navigateTo({
-        url: '../main/my-record/main'
+        url: '../main/my-record/main?vinCode=' + vinCode
       })
     }
   },
   created () {
   },
   onShow () {
-    // this.request.get('/api/car/usercCar/queryList').then(res => {
-    //   let carList = res.data || []
-    //   this.isShowEmptyCar = carList && carList.length > 0
-    //   console.log('isShowEmptyCar=>', this.isShowEmptyCar)
-    //   this.curCarInfo = carList.filter(item => item.isDefaulft === 1)[0]
-    // }).catch(err => {
-    //   console.log(err)
-    // })
+    this.request.get('/api/car/usercCar/queryList').then(res => {
+      let carList = res.data || []
+      this.isShowEmptyCar = carList && carList.length > 0
+      console.log('isShowEmptyCar=>', this.isShowEmptyCar)
+      this.curCarInfo = carList.filter(item => item.isDefaulft === 1)[0]
+    }).catch(err => {
+      console.log(err)
+    })
   },
   onLoad () {
     // 解决页面返回后，数据没重置的问题

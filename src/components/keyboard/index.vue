@@ -116,17 +116,13 @@ export default {
                 }
             }
             this.isNum = true;
-            // if (this.textArr.length === 1) {
-            //     this.isAlph = true;
-            //     this.isNum = false;
-            // }
-            //  else if (this.textArr.length === 0) {
-            //     this.isAlph = true;
-            //     this.isNum = false;
-            // }
-            //  else {
-            //     this.isNum = true;
-            // }
+            if (this.textArr.length === 0) {
+                // this.isAlph = true;
+                this.isNum = false;
+            }
+             else {
+                this.isNum = true;
+            }
             // this.$emit('update:plateNum', this.textArr.join(''));
             this.$emit('callBackData', this.textArr)
         },

@@ -16,6 +16,12 @@ export function formatTime (date) {
   const t2 = [hour, minute].map(formatNumber).join(':')
   return `${t1} ${t2}`
 }
+export function formatMonth (date) {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const t1 = [year, month].map(formatNumber).join('-')
+  return `${t1}`
+}
 /**
  * 为样式动态赋值
  * @param {*} style
@@ -42,6 +48,7 @@ export function getDistance (lati1, lngi1, lati2, lngi2) {
 export default {
   formatNumber,
   formatTime,
+  formatMonth,
   obj2style,
   getDistance
 }

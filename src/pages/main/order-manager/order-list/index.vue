@@ -17,7 +17,7 @@
             保养预约
           </div>
           <div class="_right_status">
-            {{info.status}}
+            {{orderStatusMap[info.status]}}
           </div>
         </div>
         <div class="center_content" @click="checkOrderDetail()">
@@ -42,20 +42,50 @@
           </div>
         </div>
         <div class="order_status_btn">
-          <div class="new_creat_btn btn_common">
-            新增项目
-          </div>
-          <div class="cancle_btn btn_common canClick">
+          <div
+            class="new_creat_btn btn_common"
+            v-if="info.status === 1 || info.status === 2 || info.status === 3 || info.status === 4">
             取消订单
           </div>
-          <div class="change_date_btn btn_common canClick" @click="checkCarOrder()">
-            接车检查
-          </div>
-          <!-- <div class="change_date_btn btn_common canClick">
+          <div
+            v-if="info.status === 1"
+            class="cancle_btn btn_common canClick">
             更改时间
-          </div> -->
-          <div class="navigetor_go btn_common canClick">
+          </div>
+          <div
+            v-if="info.status === 4"
+            class="cancle_btn btn_common canClick">
+            确认作业
+          </div>
+          <div
+            v-if="info.status === 3 || info.status === 4 || info.status === 5 || info.status === 6 || info.status === 7 || info.status === 11 || info.status === 12 || info.status === 13"
+            class="change_date_btn btn_common canClick" @click="checkCarOrder()">
+            车检报告
+          </div>
+          <div
+            v-if="info.status === 1 || info.status === 2"
+            class="navigetor_go btn_common canClick">
             导航前往
+          </div>
+          <div
+            v-if="info.status === 5 || info.status === 6 || info.status === 11 || info.status === 12 || info.status === 13"
+            class="navigetor_go btn_common canClick">
+            作业进度
+          </div>
+          <div
+            v-if="info.status === 7 || info.status === 8 || info.status === 9"
+            class="navigetor_go btn_common canClick">
+            保养报告
+          </div>
+          <div
+            v-if="info.status === 8"
+            class="navigetor_go btn_common canClick">
+            待评价
+          </div>
+          <div
+            v-if="info.status === 7"
+            class="navigetor_go btn_common canClick">
+            确认结算
           </div>
         </div>
       </div>
@@ -86,9 +116,24 @@ export default {
           isActive: false
         }
       ],
+      orderStatusMap: {
+        1: '已预约', // 取消 改时间 导航
+        2: '已接单', // 取消 导航
+        3: '检测中', // 取消 车检报告
+        4: '待用户确认', // 取消 车检报告 确认作业
+        5: '作业中', // 车检报告 作业进度
+        6: '作业中', // 车检报告 作业进度
+        7: '完成待确认', // 车检报告 保养报告 确认结算
+        8: '待评价', // 保养报告 待评价
+        9: '完成', // 保养报告
+        10: '已取消', // 无
+        11: '作业中', // 车检报告 作业进度
+        12: '作业中', // 车检报告 作业进度
+        13: '作业中' // 车检报告 作业进度
+      },
       orderList: [
         {
-          status: '已预约',
+          status: 1,
           money: 1999,
           rangeMile: 5000,
           companyName: '长沙一汽大众4S店销售服务有限公司',
@@ -97,7 +142,7 @@ export default {
           saName: '老张沙雕'
         },
         {
-          status: '已预约',
+          status: 2,
           money: 2999,
           rangeMile: 5000,
           companyName: '长沙一汽大众4S店销售服务有限公司',
@@ -106,8 +151,98 @@ export default {
           saName: '老张沙雕'
         },
         {
-          status: '已预约',
+          status: 3,
           money: 1888,
+          rangeMile: 5000,
+          companyName: '长沙一汽大众4S店销售服务有限公司',
+          placeBrand: '湘AH88X0',
+          datetime: '2018-11-26 09:30',
+          saName: '老张沙雕'
+        },
+        {
+          status: 4,
+          money: 1999,
+          rangeMile: 5000,
+          companyName: '长沙一汽大众4S店销售服务有限公司',
+          placeBrand: '湘AH88X0',
+          datetime: '2018-11-26 09:30',
+          saName: '老张沙雕'
+        },
+        {
+          status: 5,
+          money: 2999,
+          rangeMile: 5000,
+          companyName: '长沙一汽大众4S店销售服务有限公司',
+          placeBrand: '湘AH88X0',
+          datetime: '2018-11-26 09:30',
+          saName: '老张沙雕'
+        },
+        {
+          status: 6,
+          money: 1888,
+          rangeMile: 5000,
+          companyName: '长沙一汽大众4S店销售服务有限公司',
+          placeBrand: '湘AH88X0',
+          datetime: '2018-11-26 09:30',
+          saName: '老张沙雕'
+        },
+        {
+          status: 7,
+          money: 1999,
+          rangeMile: 5000,
+          companyName: '长沙一汽大众4S店销售服务有限公司',
+          placeBrand: '湘AH88X0',
+          datetime: '2018-11-26 09:30',
+          saName: '老张沙雕'
+        },
+        {
+          status: 8,
+          money: 2999,
+          rangeMile: 5000,
+          companyName: '长沙一汽大众4S店销售服务有限公司',
+          placeBrand: '湘AH88X0',
+          datetime: '2018-11-26 09:30',
+          saName: '老张沙雕'
+        },
+        {
+          status: 9,
+          money: 1888,
+          rangeMile: 5000,
+          companyName: '长沙一汽大众4S店销售服务有限公司',
+          placeBrand: '湘AH88X0',
+          datetime: '2018-11-26 09:30',
+          saName: '老张沙雕'
+        },
+        {
+          status: 10,
+          money: 1999,
+          rangeMile: 5000,
+          companyName: '长沙一汽大众4S店销售服务有限公司',
+          placeBrand: '湘AH88X0',
+          datetime: '2018-11-26 09:30',
+          saName: '老张沙雕'
+        },
+        {
+          status: 11,
+          money: 2999,
+          rangeMile: 5000,
+          companyName: '长沙一汽大众4S店销售服务有限公司',
+          placeBrand: '湘AH88X0',
+          datetime: '2018-11-26 09:30',
+          saName: '老张沙雕'
+        },
+        {
+          status: 12,
+          money: 1888,
+          rangeMile: 5000,
+          companyName: '长沙一汽大众4S店销售服务有限公司',
+          placeBrand: '湘AH88X0',
+          datetime: '2018-11-26 09:30',
+          saName: '老张沙雕'
+        },
+        {
+          status: 13,
+          money: 1999,
           rangeMile: 5000,
           companyName: '长沙一汽大众4S店销售服务有限公司',
           placeBrand: '湘AH88X0',
@@ -155,16 +290,17 @@ export default {
 <style>
   .order_status_btn{
     display: flex;
-    justify-content: space-between;
+    justify-content:flex-end;
     align-items: center;
     height: 98rpx;
     line-height: 98rpx;
-    padding: 0 36rpx 0 36rpx;
+    padding: 0 22rpx 0 36rpx;
   }
   .order_status_btn .canClick{
     background: #568FF4 !important
   }
   .order_status_btn .btn_common{
+    margin-left: 30rpx;
     line-height: 54rpx;
     text-align: center;
     font-size:28rpx;

@@ -4,11 +4,11 @@
       <div class="car_brand_num">
         {{item.plateNumber}}
       </div>
-      <div class="car_info_box" @click="changeMyCar()">
+      <div class="car_info_box" @click="changeMyCar(item)">
         <div class="car_info_left">
           <div>{{item.brandName + item.setName + item.modelName}}</div>
-          <div class="info_center">上次保养里程：{{item.mileage}}</div>
-          <div>上次保养时间：{{item.carTime}}</div>
+          <div class="info_center">上次保养里程：{{item.mileage}}KM</div>
+          <div>上次保养时间：{{item.lastTime || '暂无记录'}}</div>
         </div>
         <div class="car_info_right">
           <img src="../../../../static/image/cartest.jpg" alt="">
@@ -31,29 +31,7 @@ export default {
   },
   data () {
     return {
-      carList: [
-        {
-          carNum: '湘A·5XM05',
-          carName: '东风日产 阳光1.5 2012款  舒适型',
-          carRange: '80000KM',
-          carTime: '2018-11-24',
-          picCar: '../../../../static/image/cartest.jpg'
-        },
-        {
-          carNum: '湘A·5XM05',
-          carName: '东风日产 阳光1.5 2012款  舒适型',
-          carRange: '80000KM',
-          carTime: '2018-11-24',
-          picCar: '../../../../static/image/cartest.jpg'
-        },
-        {
-          carNum: '湘A·5XM05',
-          carName: '东风日产 阳光1.5 2012款  舒适型',
-          carRange: '80000KM',
-          carTime: '2018-11-24',
-          picCar: '../../../../static/image/cartest.jpg'
-        }
-      ]
+      carList: []
     }
   },
   methods: {
@@ -62,9 +40,15 @@ export default {
         url: '../add-car/main'
       })
     },
-    changeMyCar () {
-      wx.switchTab({
-        url: '../../index/main'
+    changeMyCar (item) {
+      this.request.post('/api/car/usercCar/updateCar?id=' + item.id).then(res => {
+        if (res.code === '200') {
+          wx.switchTab({
+            url: '../../index/main'
+          })
+        }
+      }).catch(err => {
+        console.log(err)
       })
     },
     checkRecord () {

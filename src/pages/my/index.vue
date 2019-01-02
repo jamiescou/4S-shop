@@ -12,22 +12,22 @@
         <!-- 卡片信息 -->
         <div class="header_pic">
           <!-- 头像 -->
-          <img src="../../../static/image/cartest.jpg" alt="">
+          <img :src="userInfo.headImg" alt="">
         </div>
         <div class="nick_name">
-          嗨皮哥
+          {{userInfo.userName}}
         </div>
         <div class="car_model_info">
-          大众 捷达2017款 200 舒适型
+          {{userInfo.brandName + userInfo.setName + userInfo.modelName}}
         </div>
         <div class="phone_and_jifen">
           <div class="_phone_number">
             <img class="_phone_icon" src="../../../static/image/phone-icon.png" alt="">
-            13843838438
+            {{userInfo.userPhone}}
           </div>
           <div class="_jifen">
             <img class="jifen_icon" src="../../../static/image/jifen.png" alt="">
-            180000
+            {{userInfo.balance}}
           </div>
         </div>
         <div class="card_back_pic">
@@ -96,7 +96,9 @@ export default {
         {
           name: '意见反馈'
         }
-      ]
+      ],
+      userInfo: {
+      }
     }
   },
   methods: {
@@ -108,16 +110,19 @@ export default {
   },
   created () {
   },
+  onShow () {
+    this.request.post('/api/userc/query').then(res => {
+      this.userInfo = res.data
+    }).catch(err => {
+      console.log(err)
+    })
+  },
   onLoad () {
     // 解决页面返回后，数据没重置的问题
     Object.assign(this, this.$options.data())
-  },
-  add: function () {
-
   }
 }
 </script>
-
 <style>
 .menu_list_bottom{
 

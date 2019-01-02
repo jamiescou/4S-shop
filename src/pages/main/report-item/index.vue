@@ -1,37 +1,39 @@
 <template>
   <div class="car_reports_page">
-    <div class="title">{{reportItemList[hasClick].name}}</div>
+    <div class="title">{{reportInfo[hasClick].categoryName}}</div>
     <div class="car_full_pic"><img src="../../../../static/image/car-full.jpg" alt=""></div>
       <div class="order_by_item">
         <div class="_outer">
-          <div :class="item !== 5 ? '_number_by_step' : '_number_by_step _number_by_step_fixed'" v-for="item in [0,1,2,3,4,5]" :key="item">
+          <div :class="item !== (countList.length - 1) ? '_number_by_step' : '_number_by_step _number_by_step_fixed'" v-for="item in countList" :key="item">
             <!-- <div class="_inner"> -->
               <div :class="item === hasClick ? 'nomal_number _active' : 'nomal_number'" @click="chooseStep(item)">{{item + 1}}</div>
-              <div v-if="item !== 5" class="horizontal_line"></div>
+              <div v-if="item !== (countList.length - 1)" class="horizontal_line"></div>
             <!-- </div> -->
           </div>
         </div>
     </div>
-    <div class="car_reports_item_list" v-for="(info, index) in errorDataList" :key="index">
+    <div class="car_reports_item_list" v-for="(info, index) in allReportItems" :key="index">
       <div class="error_title" @click="showAllToggle(info)">
         <div class="_left">
-          {{info.title}}
+          {{info.itemName}}
         </div>
         <div class="_right">
-          <div class="error_info"><img :src="info.isError ? '../../../../static/image/nomal.png' : '../../../../static/image/error.png'" alt=""></div>
+          <div v-if="!info.result" class="error_info"><img src='../../../../static/image/nomal.png' alt=""></div>
+          <div v-if="info.result === 1 || info.result === 3" class="error_info"><img src='../../../../static/image/error.png' alt=""></div>
+          <div v-if="info.result === 2" class="error_info">无此项</div>
           <div v-if="info.isShow" class="error_icon"><img src="../../../../static/image/up-icon.png" alt=""></div>
           <div v-else class="error_icon"><img src="../../../../static/image/down-icon.png" alt=""></div>
         </div>
       </div>
       <div v-if="info.isShow" class="error_content">
         <div class="_left">
-          <img :src="info.errPic" alt="">
+          <img :src="info.delPic" alt="">
         </div>
         <div class="_before_error">
-          {{info.correctTitile}}
+          {{info.remark}}
         </div>
         <div class="_fixed_error">
-          {{info.fixedTitle}}
+          {{info.delRemark}}
         </div>
       </div>
     </div>
@@ -44,89 +46,55 @@ export default {
   },
   data () {
     return {
-      reportItemList: [
-        {
-          name: '电器设备',
-          error: '2',
-          nomal: '40'
-        },
-        {
-          name: '汽车外部',
-          error: '2',
-          nomal: '37'
-        },
-        {
-          name: '轮胎检测',
-          error: '2',
-          nomal: '44'
-        },
-        {
-          name: '汽车底部',
-          error: '2',
-          nomal: '50'
-        },
-        {
-          name: '发动机舱',
-          error: '2',
-          nomal: '55'
-        },
-        {
-          name: '最后验车',
-          error: '2',
-          nomal: '64'
-        }
-      ],
+      reportInfo: {},
+      countList: [],
       hasClick: '',
-      isShow: false,
-      errorDataList: [
-        {
-          title: '粉尘过滤器',
-          isError: false,
-          errPic: '../../../../static/image/cartest.jpg',
-          correctTitile: '粉尘器是否堵塞',
-          fixedTitle: '粉尘器已更换',
-          isShow: false
-        },
-        {
-          title: '粉尘过滤器',
-          isError: false,
-          errPic: '../../../../static/image/cartest.jpg',
-          correctTitile: '粉尘器是否堵塞',
-          fixedTitle: '粉尘器已更换',
-          isShow: false
-        },
-        {
-          title: '粉尘过滤器',
-          isError: true,
-          errPic: '../../../../static/image/cartest.jpg',
-          correctTitile: '粉尘器是否堵塞',
-          fixedTitle: '粉尘器已更换',
-          isShow: false
-        },
-        {
-          title: '粉尘过滤器',
-          isError: true,
-          errPic: '../../../../static/image/cartest.jpg',
-          correctTitile: '粉尘器是否堵塞',
-          fixedTitle: '粉尘器已更换',
-          isShow: false
-        }
-      ]
+      allReportItems: [],
+      errorDataList: []
     }
   },
   methods: {
     chooseStep (item) {
       this.hasClick = item
+      this.getReportDetail()
     },
     showAllToggle (info) {
+      console.log('info==>>>', info)
       info.isShow = !info.isShow
+    },
+    async getReportDetail () {
+      this.allReportItems = this.reportInfo[this.hasClick].items // 当前大类中的所有小类
+      let orderId = this.$root.$mp.query.orderId
+      let categoryId = this.reportInfo.categoryId
+      let postData = {
+        orderId,
+        categoryId
+      }
+      let errorDetailLists = await this.request.post('/api/report/getReportDetailInfo', postData)
+      let tempAllList = this.allReportItems
+      let tempObj = {
+        isShow: false
+      }
+      this.allReportItems = tempAllList.map(item => {
+        errorDetailLists.data.map(info => {
+          if (info.itemId === item.itemId) {
+            item = {...info, ...item, ...tempObj}
+          } else {
+            item = {...item, isShow: false}
+          }
+        })
+        return item
+      })
     }
   },
   created () {
   },
   onShow () {
-    this.hasClick = Number(this.$root.$mp.query.id)
-    console.log('====>>', this.$root.$mp.query, this.hasClick)
+    this.hasClick = Number(this.$root.$mp.query.id) // 点击的是第几个
+    let count = Number(this.$root.$mp.query.count) // 有几个大类
+    this.reportInfo = JSON.parse(this.$root.$mp.query.info) // 当前大类的全部信息
+    this.countList = new Array(count).fill('').map((item, index) => index)
+    this.getReportDetail()
   },
   onLoad () {
     // 解决页面返回后，数据没重置的问题

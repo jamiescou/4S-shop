@@ -131,7 +131,13 @@ export default {
       wx.navigateTo({
         url: '../carlife-detail/main'
       })
+    },
+    getNewsList () {
+      // api/notice/list?page=xxx&limit=10
     }
+  },
+  onShow () {
+
   },
   onLoad () {
     // 解决页面返回后，数据没重置的问题
